@@ -4,6 +4,7 @@
 #include "MainLoop.h"
 #include "Match.h"
 #include "Answer.h"
+#include "StructUtils.h"
 
 
 std::set<std::string> WORDS;
@@ -12,7 +13,7 @@ void SolveWord(){
 
     CMatch Match;
 
-    while (Match.POSSIBLES.size() > 1){
+    while (Match.POSSIBLES.size() >= 1){
         std::string strInsertedWord = AskForWord();
         std::string strColorPattern = AskForPattern();
         CAnswer answer(strInsertedWord, strColorPattern);
@@ -33,7 +34,7 @@ std::string AskForWord(){
         std::cin >> strUserWord;
 
         // Compruebo que la palabra introducida esté aceptada por Wordle
-        if (WORDS.find(strUserWord) == WORDS.end())
+        if (!IS_IN_SET(strUserWord, WORDS))
             continue;
 
         // La palabra es correcta

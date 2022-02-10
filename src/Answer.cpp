@@ -1,10 +1,10 @@
 #include "Answer.h"
+#include "StructUtils.h"
 
 CAnswer::CAnswer(std::string const& strWord)
 {
     m_strWord = strWord;
-    m_Color.resize(5);
-    std::fill(m_Color.begin(), m_Color.end(), LeterState::GREY);
+    FILL_VECTOR(m_Color, 5, LeterState::GREY);
     m_RequiredLetters = GetRequiredLetters();
     m_NotPresentLetters = GetNotPressentLetters();
 }
@@ -39,7 +39,7 @@ std::set<char> CAnswer::GetNotPressentLetters()
         if (m_Color[i] != LeterState::GREY)
             continue;
 
-        if (m_RequiredLetters.find(m_strWord[i]) == m_RequiredLetters.end() )
+        if (!IS_IN_SET(m_strWord[i], m_RequiredLetters) )
             InvalidLetters.insert(m_strWord[i]);
     }
 
@@ -73,7 +73,7 @@ CAnswer::ColorizeWord(std::string const& strTarget )
             continue;
 
         // Si aún es gris, miro si es una letra que esté en la palabra
-        if (NotGreen.find(m_strWord[i]) != NotGreen.end())
+        if (IS_IN_SET(m_strWord[i], NotGreen))
             vtColor[i] = LeterState::YELLOW;
     }
 

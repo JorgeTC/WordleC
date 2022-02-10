@@ -2,11 +2,12 @@
 #include "Answer.h"
 #include "CacheColors.h"
 #include <iostream>
+#include "StructUtils.h"
 
 CMatch::CMatch()
 {
     // Copio el conjunto de palabras
-    std::copy(WORDS.begin(), WORDS.end(), std::inserter(POSSIBLES, POSSIBLES.begin()));
+    COPY_SET(WORDS, POSSIBLES);
 }
 
 std::string

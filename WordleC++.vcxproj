@@ -23,6 +23,7 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MainLoop.cpp" />
     <ClCompile Include="src\Match.cpp" />
+    <ClCompile Include="src\ProgressBar.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Answer.h" />
@@ -30,6 +31,8 @@
     <ClInclude Include="src\Colors.h" />
     <ClInclude Include="src\MainLoop.h" />
     <ClInclude Include="src\Match.h" />
+    <ClInclude Include="src\ProgressBar.h" />
+    <ClInclude Include="src\StructUtils.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
