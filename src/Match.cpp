@@ -39,24 +39,23 @@ CMatch::suggestion()
 int
 CMatch::PunctuationForWord(std::string const& strWord)
 {
+
     CAnswer answer(strWord);
     int punctuation = 0;
+    
 
-    Memorized CacheCountPossibles(CountPossibles);
+    Memorized CacheCountPossibles(this, &CMatch::CountPossibles);
 
-    //  Iteremos todas las posibles respuestas
+    // Iteremos todas las posibles respuestas
     for (auto word : POSSIBLES) {
-        // punctuation += PunctuationForWordAndTarget(answer, word);
 
         answer.m_Color = answer.ColorizeWord(word);
         answer.m_RequiredLetters = answer.GetRequiredLetters();
         answer.m_NotPresentLetters = answer.GetNotPressentLetters();
 
-        punctuation += CacheCountPossibles(word);
+        punctuation += CacheCountPossibles(answer);
 
     }
-    // He cambiado de palabra, luego el patrón de colores cambia su significado
-    // cls.count_possibles.cache_reset()
 
     // Devuelvo la pyuntuación
     return punctuation;
