@@ -18,7 +18,7 @@ void SolveWord(){
         CAnswer answer(strInsertedWord, strColorPattern);
         Match.POSSIBLES = Match.GetPossibles(answer);
         Match.print();
-        std::cout << Match.suggestion();
+        std::cout << "Te sugerimos: " << Match.suggestion() << "\n";
 
     }
 }
