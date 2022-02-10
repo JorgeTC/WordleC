@@ -1,5 +1,6 @@
 #include "Match.h"
 #include "Answer.h"
+#include "CacheColors.h"
 #include <iostream>
 
 CMatch::CMatch()
@@ -41,13 +42,21 @@ CMatch::PunctuationForWord(std::string const& strWord)
     CAnswer answer(strWord);
     int punctuation = 0;
 
+    Memorized CacheCountPossibles(CountPossibles);
+
     //  Iteremos todas las posibles respuestas
     for (auto word : POSSIBLES) {
-        punctuation += PunctuationForWordAndTarget(answer, word);
+        // punctuation += PunctuationForWordAndTarget(answer, word);
 
-        // He cambiado de palabra, luego el patrón de colores cambia su significado
-        // cls.count_possibles.cache_reset()
+        answer.m_Color = answer.ColorizeWord(word);
+        answer.m_RequiredLetters = answer.GetRequiredLetters();
+        answer.m_NotPresentLetters = answer.GetNotPressentLetters();
+
+        punctuation += CacheCountPossibles(word);
+
     }
+    // He cambiado de palabra, luego el patrón de colores cambia su significado
+    // cls.count_possibles.cache_reset()
 
     // Devuelvo la pyuntuación
     return punctuation;

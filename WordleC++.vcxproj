@@ -26,6 +26,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Answer.h" />
+    <ClInclude Include="src\CacheColors.h" />
     <ClInclude Include="src\Colors.h" />
     <ClInclude Include="src\MainLoop.h" />
     <ClInclude Include="src\Match.h" />
