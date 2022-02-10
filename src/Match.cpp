@@ -3,6 +3,7 @@
 #include "CacheColors.h"
 #include <iostream>
 #include "StructUtils.h"
+#include "ProgressBar.h"
 
 CMatch::CMatch()
 {
@@ -15,24 +16,28 @@ CMatch::suggestion()
 {
     std::string strSuggestion = "";
     int nMinPunctuation = WORDS.size();
+    int counter = 0;
 
     // Itero todas las palabras que me permite el juego
-    //bar = ProgressBar()
-    for (auto word : POSSIBLES) {
+    ProgressBar bar;
+    for (auto word : WORDS) {
 
         // Evalúo la palabra
         int curr_punctuation = PunctuationForWord(word);
 
 
         // Si la palabra me descarta más elementos, la tomo como nueva sugerencia
-        if (curr_punctuation < nMinPunctuation) {
+        if (curr_punctuation < nMinPunctuation ||
+            (curr_punctuation == nMinPunctuation &&
+             (!IS_IN_SET(strSuggestion, POSSIBLES) && IS_IN_SET(word, POSSIBLES)))) {
             strSuggestion = word;
             nMinPunctuation = curr_punctuation;
         }
+
+        bar.Update(double(++counter) / double(WORDS.size()));
     }
 
 
-    //bar.update((index + 1) / len(cls.possibles))
 
     return strSuggestion;
 }
