@@ -65,7 +65,10 @@ std::set<std::string> LoadValidWords()
     std::string strCurrLine;
 
     // Abro el archivo
-    std::ifstream inputFile("res/list.txt");
+    std::ifstream inputFile("..\\..\\res\\list.txt");
+    if (!inputFile.is_open()) {
+        inputFile.open("res\\list.txt");
+    }
 
     while (inputFile >> strCurrLine) {
         Words.insert(strCurrLine);
