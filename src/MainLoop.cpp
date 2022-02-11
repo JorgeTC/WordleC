@@ -31,7 +31,8 @@ std::string AskForWord(){
 
         // Pido al usuario
         std::cout << "Palabra introducida ";
-        std::cin >> strUserWord;
+        /*std::cin >> strUserWord;*/
+        std::getline(std::cin >> std::ws, strUserWord);
 
         // Compruebo que la palabra introducida esté aceptada por Wordle
         if (!IS_IN_SET(strUserWord, WORDS))
