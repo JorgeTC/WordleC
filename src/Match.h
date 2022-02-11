@@ -28,5 +28,3 @@ private:
 	;
 };
 
-#define IS_IN_SET(_item, _set) (_set.find(_item) != _set.end())
-#define IS_SUBSET(_small,_big) (std::includes(_big.begin(), _big.end(), _small.begin(), _small.end()))

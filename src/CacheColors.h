@@ -3,11 +3,11 @@
 #include <functional>
 #include "Answer.h"
 
-template<class Ret, class... Args>
 class Memorized
 {
     std::map<int, int> m_map;
-    std::function<Ret(Args...)> fn;
+    std::function<int(CMatch*, CAnswer const&)> m_fn;
+    CMatch* m_obj;
 
     int ConvertColorsToInt(CAnswer const& ans) {
 
@@ -23,16 +23,17 @@ class Memorized
     };
 
 public:
-    Memorized(std::function<Ret(Args...)> _fn) : fn(_fn) {};
+    Memorized(CMatch* obj, std::function<int(CMatch*, CAnswer const&)> _fn) {
+        m_fn = _fn;
+        m_obj = obj;
+    };
 
-    Ret operator()(Args... args)
+    int operator()(CAnswer const& ans)
     {
-        int key = ConvertColorsToInt(args[0]);
+        int key = ConvertColorsToInt(ans);
         if (m_map.count(key)) {
-            return m_map[key]
+            return m_map[key];
         }
-        return m_map[key] = fn(args...);
-    }
-}
-
-auto fn = Memorized([](int x)->int { return x + 1; });
+        return m_map[key] = m_fn(m_obj, ans);
+    };
+};
