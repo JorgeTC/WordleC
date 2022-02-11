@@ -15,7 +15,7 @@ std::string
 CMatch::suggestion()
 {
     std::string strSuggestion = "";
-    int nMinPunctuation = WORDS.size();
+    int nMinPunctuation = WORDS.size() * WORDS.size();
     int counter = 0;
 
     // Itero todas las palabras que me permite el juego
