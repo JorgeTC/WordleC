@@ -20,7 +20,7 @@ CMatch::suggestion()
 
     // Itero todas las palabras que me permite el juego
     ProgressBar bar;
-    for (auto word : WORDS) {
+    for (auto const& word : WORDS) {
 
         // Evalúo la palabra
         int curr_punctuation = PunctuationForWord(word);
@@ -53,7 +53,7 @@ CMatch::PunctuationForWord(std::string const& strWord)
     Memorized CacheCountPossibles(this, &CMatch::CountPossibles);
 
     // Iteremos todas las posibles respuestas
-    for (auto word : POSSIBLES) {
+    for (auto const& word : POSSIBLES) {
 
         answer.m_Color = answer.ColorizeWord(word);
         answer.m_RequiredLetters = answer.GetRequiredLetters();
@@ -83,7 +83,7 @@ CMatch::CountPossibles(CAnswer const& word)
 {
     int counter{ 0 };
 
-    for (auto possible : POSSIBLES) {
+    for (auto const& possible : POSSIBLES) {
         counter += PossibleWord(possible, word);
     }
 
@@ -95,7 +95,7 @@ CMatch::GetPossibles(CAnswer const& answer) {
 
     std::set<std::string> vtPossibles;
 
-    for (auto possible : POSSIBLES) {
+    for (auto const& possible : POSSIBLES) {
         if (PossibleWord(possible, answer)) {
             vtPossibles.insert(possible);
         }
@@ -132,6 +132,6 @@ CMatch::PossibleWord(std::string const& word, CAnswer const& answer)
 
 void
 CMatch::print() {
-    for (auto word : POSSIBLES)
+    for (auto const& word : POSSIBLES)
         std::cout << word << "\n";
 }

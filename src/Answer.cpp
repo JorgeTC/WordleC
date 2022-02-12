@@ -85,7 +85,7 @@ CAnswer::StrToPatternVector(std::string const& strColor)
 {
     std::vector<LeterState> vtColor;
 
-    for (auto num : strColor) {
+    for (auto const& num : strColor) {
         int value = num - '0';
         vtColor.push_back(static_cast<LeterState>(value));
     }

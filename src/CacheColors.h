@@ -14,7 +14,7 @@ class Memorized
         int nTotalSum = 0;
         int nBase = 1;
 
-        for (auto color : ans.m_Color) {
+        for (auto const& color : ans.m_Color) {
             nTotalSum += static_cast<int>(color) * nBase;
             nBase *= 3;
         }
