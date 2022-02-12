@@ -31,8 +31,7 @@ std::string AskForWord(){
 
         // Pido al usuario
         std::cout << "Palabra introducida ";
-        /*std::cin >> strUserWord;*/
-        std::getline(std::cin >> std::ws, strUserWord);
+        std::cin >> strUserWord;
 
         // Compruebo que la palabra introducida esté aceptada por Wordle
         if (!IS_IN_SET(strUserWord, WORDS))
@@ -72,11 +71,22 @@ std::set<std::string> LoadValidWords()
     }
 
     while (inputFile >> strCurrLine) {
-        int deleteme = strCurrLine.length();
+        FixEncoding(&strCurrLine);
         Words.insert(strCurrLine);
     }
 
     inputFile.close();
 
     return Words;
+}
+
+void FixEncoding(std::string *strUTF8)
+{
+    // La ñ la codifican dos caracteres, quiero guardarla con solo uno.
+
+    // Añado el caracter correcto
+    std::replace(strUTF8->begin(), strUTF8->end(), -61, -92);
+    // Elimino el cracter que me sobra
+    strUTF8->erase(remove(strUTF8->begin(), strUTF8->end(), -79), strUTF8->end());
+
 }
