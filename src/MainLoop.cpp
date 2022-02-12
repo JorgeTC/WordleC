@@ -19,6 +19,7 @@ void SolveWord(){
         std::string strColorPattern = AskForPattern();
         CAnswer answer(strInsertedWord, strColorPattern);
         Match.POSSIBLES = Match.GetPossibles(answer);
+        std::cout << "Hay " << Match.POSSIBLES.size() << " candidatas:\n";
         Match.print();
         std::cout << "Te sugerimos: " << Match.suggestion() << "\n";
 
