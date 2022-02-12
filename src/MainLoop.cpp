@@ -71,10 +71,22 @@ std::set<std::string> LoadValidWords()
     }
 
     while (inputFile >> strCurrLine) {
+        FixEncoding(&strCurrLine);
         Words.insert(strCurrLine);
     }
 
     inputFile.close();
 
     return Words;
+}
+
+void FixEncoding(std::string *strUTF8)
+{
+    // La ñ la codifican dos caracteres, quiero guardarla con solo uno.
+
+    // Añado el caracter correcto
+    std::replace(strUTF8->begin(), strUTF8->end(), -61, -92);
+    // Elimino el cracter que me sobra
+    strUTF8->erase(remove(strUTF8->begin(), strUTF8->end(), -79), strUTF8->end());
+
 }
