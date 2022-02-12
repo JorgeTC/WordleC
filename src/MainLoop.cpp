@@ -5,6 +5,7 @@
 #include "Match.h"
 #include "Answer.h"
 #include "StructUtils.h"
+#include "ProgressBar.h"
 
 
 std::set<std::string> WORDS;
@@ -89,4 +90,28 @@ void FixEncoding(std::string *strUTF8)
     // Elimino el cracter que me sobra
     strUTF8->erase(remove(strUTF8->begin(), strUTF8->end(), -79), strUTF8->end());
 
+}
+
+void WritePunctuationFile()
+{
+    // Abro el archivo
+    std::ofstream punctuationFile("..\\..\\res\\punctuation.txt");
+    if (!punctuationFile.is_open()) {
+        punctuationFile.open("res\\punctuation.txt");
+    }
+
+    CMatch Match;
+    int nTotalWords = WORDS.size();
+    int nProgress {0};
+    
+    ProgressBar bar;
+    // Itero las palabras posibles
+    for (auto const& word : WORDS) {
+        // Escribo su puntacións
+        punctuationFile << word << " " << Match.PunctuationForWord(word) << "\n";
+
+        bar.Update(double(++nProgress) / double(nTotalWords));
+    }
+
+    punctuationFile.close();
 }
