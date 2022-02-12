@@ -72,6 +72,7 @@ std::set<std::string> LoadValidWords()
     }
 
     while (inputFile >> strCurrLine) {
+        int deleteme = strCurrLine.length();
         Words.insert(strCurrLine);
     }
 
