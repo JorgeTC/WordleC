@@ -1,4 +1,5 @@
 #pragma once
+#include <set>
 
 #define IS_IN_SET(_item, _set) (_set.find(_item) != _set.end())
 #define IS_SUBSET(_small,_big) (std::includes(_big.begin(), _big.end(), _small.begin(), _small.end()))
@@ -6,3 +7,6 @@
 
 #define FILL_VECTOR(_vt, _size, _item) {_vt.resize(_size); \
                                         std::fill(_vt.begin(), _vt.end(), _item);}
+
+//template <typename Titem>
+bool ExtractFromSet(char const & item, std::multiset<char> &container);

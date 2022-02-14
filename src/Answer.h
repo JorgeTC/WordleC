@@ -10,7 +10,7 @@ public:
 	CAnswer(std::string const& strWord);
 	CAnswer(std::string const& strWord, std::string const& strColorPattern);
 
-	std::set<char> GetRequiredLetters();
+	std::multiset<char> GetRequiredLetters();
 	std::set<char> GetNotPressentLetters();
 
 	std::vector<LeterState> ColorizeWord(std::string const& strWord);
@@ -20,7 +20,7 @@ public:
 
 	std::string m_strWord;
 	std::vector<LeterState> m_Color;
-	std::set<char> m_RequiredLetters;
+	std::multiset<char> m_RequiredLetters;
 	std::set<char> m_NotPresentLetters;
 	
 };

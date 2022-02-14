@@ -24,6 +24,7 @@
     <ClCompile Include="src\MainLoop.cpp" />
     <ClCompile Include="src\Match.cpp" />
     <ClCompile Include="src\ProgressBar.cpp" />
+    <ClCompile Include="src\StructUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Answer.h" />

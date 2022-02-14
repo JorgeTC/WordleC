@@ -107,27 +107,31 @@ CMatch::GetPossibles(CAnswer const& answer) {
 bool
 CMatch::PossibleWord(std::string const& word, CAnswer const& answer)
 {
-    std::set<char> PressentLetters;
+    std::multiset<char> PressentLetters;
+    std::multiset<char> RequiredLetters;
+
+    COPY_SET(answer.m_RequiredLetters, RequiredLetters);
 
     for (int i = 0; i < 5; i++) {
 
         // Miro que la letra no esté ya prohibida
-        if (IS_IN_SET(word[i], answer.m_NotPresentLetters))
+        if (IS_IN_SET(word[i], answer.m_NotPresentLetters) &&
+            !ExtractFromSet(word[i], RequiredLetters))
             return false;
 
         // Miro qué me dicen los colores de la posición actual
-        if (answer.m_Color[i] == LeterState::GREEN and word[i] != answer.m_strWord[i])
+        if (answer.m_Color[i] == LeterState::GREEN && word[i] != answer.m_strWord[i])
             return false;
 
         // Sé que en esta posición, la letra es incorrecta
-        if (answer.m_Color[i] != LeterState::GREEN and word[i] == answer.m_strWord[i])
+        if (answer.m_Color[i] != LeterState::GREEN && word[i] == answer.m_strWord[i])
             return false;
 
         // Añado la lera actual
         PressentLetters.insert(word[i]);
     }
 
-    return IS_SUBSET(answer.m_RequiredLetters, PressentLetters);
+    return IS_SUBSET(RequiredLetters, PressentLetters);
 }
 
 void
