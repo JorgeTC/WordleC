@@ -15,13 +15,13 @@ void SolveWord() {
     CMatch Match;
 
     while (Match.POSSIBLES.size() >= 1) {
-        std::cout << "Te sugerimos: " << Match.suggestion() << "\n";
         std::string strInsertedWord = AskForWord();
         std::string strColorPattern = AskForPattern();
         CAnswer answer(strInsertedWord, strColorPattern);
         Match.POSSIBLES = Match.GetPossibles(answer);
         std::cout << "Hay " << Match.POSSIBLES.size() << " candidatas:\n";
         Match.print();
+        std::cout << "Te sugerimos: " << Match.suggestion() << "\n";
 
     }
 }
