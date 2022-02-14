@@ -10,11 +10,11 @@
 
 std::set<std::string> WORDS;
 
-void SolveWord(){
+void SolveWord() {
 
     CMatch Match;
 
-    while (Match.POSSIBLES.size() >= 1){
+    while (Match.POSSIBLES.size() >= 1) {
         std::string strInsertedWord = AskForWord();
         std::string strColorPattern = AskForPattern();
         CAnswer answer(strInsertedWord, strColorPattern);
@@ -26,8 +26,8 @@ void SolveWord(){
     }
 }
 
-std::string AskForWord(){
-    while (true){
+std::string AskForWord() {
+    while (true) {
 
         std::string strUserWord;
 
@@ -82,7 +82,7 @@ std::set<std::string> LoadValidWords()
     return Words;
 }
 
-void FixEncoding(std::string *strUTF8)
+void FixEncoding(std::string* strUTF8)
 {
     // La ñ la codifican dos caracteres, quiero guardarla con solo uno.
 
@@ -103,8 +103,8 @@ void WritePunctuationFile()
 
     CMatch Match;
     int nTotalWords = WORDS.size();
-    int nProgress {0};
-    
+    int nProgress{ 0 };
+
     ProgressBar bar;
     // Itero las palabras posibles
     for (auto const& word : WORDS) {

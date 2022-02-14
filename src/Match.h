@@ -15,10 +15,11 @@ public:
 
 	std::string suggestion();
 	int PunctuationForWord(std::string const& strWord);
+	int PunctuationForWordLowerThan(std::string const& strWord, int nMaxPunctuation);
 	int PunctuationForWordAndTarget(CAnswer word, std::string const& target);
 
 	int CountPossibles(CAnswer const& word);
-	bool PossibleWord(std::string const& word, CAnswer const& answer);
+	bool PossibleWord(std::string const& word, CAnswer const & answer);
 
 	std::set<std::string> GetPossibles(CAnswer const& answer);
 

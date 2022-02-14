@@ -1,4 +1,4 @@
-#include "Match.h"
+Ôªø#include "Match.h"
 #include "Answer.h"
 #include "CacheColors.h"
 #include <iostream>
@@ -22,14 +22,14 @@ CMatch::suggestion()
     ProgressBar bar;
     for (auto const& word : WORDS) {
 
-        // Eval˙o la palabra
-        int curr_punctuation = PunctuationForWord(word);
+        // Eval√∫o la palabra
+        int curr_punctuation = PunctuationForWordLowerThan(word, nMinPunctuation);
 
 
-        // Si la palabra me descarta m·s elementos, la tomo como nueva sugerencia
+        // Si la palabra me descarta m√°s elementos, la tomo como nueva sugerencia
         if (curr_punctuation < nMinPunctuation ||
             (curr_punctuation == nMinPunctuation &&
-             (!IS_IN_SET(strSuggestion, POSSIBLES) && IS_IN_SET(word, POSSIBLES)))) {
+                (!IS_IN_SET(strSuggestion, POSSIBLES) && IS_IN_SET(word, POSSIBLES)))) {
             strSuggestion = word;
             nMinPunctuation = curr_punctuation;
         }
@@ -48,7 +48,7 @@ CMatch::PunctuationForWord(std::string const& strWord)
 
     CAnswer answer(strWord);
     int punctuation = 0;
-    
+
 
     Memorized CacheCountPossibles(this, &CMatch::CountPossibles);
 
@@ -63,7 +63,34 @@ CMatch::PunctuationForWord(std::string const& strWord)
 
     }
 
-    // Devuelvo la pyuntuaciÛn
+    // Devuelvo la pyuntuaci√≥n
+    return punctuation;
+}
+
+int
+CMatch::PunctuationForWordLowerThan(std::string const& strWord, int nMaxPunctuation) {
+
+    CAnswer answer(strWord);
+    int punctuation = 0;
+
+
+    Memorized CacheCountPossibles(this, &CMatch::CountPossibles);
+
+    // Iteremos todas las posibles respuestas
+    for (auto const& word : POSSIBLES) {
+
+        answer.m_Color = answer.ColorizeWord(word);
+        answer.m_RequiredLetters = answer.GetRequiredLetters();
+        answer.m_NotPresentLetters = answer.GetNotPressentLetters();
+
+        punctuation += CacheCountPossibles(answer);
+
+        // Si he superado la mejor puntuaci√≥n encontrada hasta ahora, salgo del bucle
+        if (punctuation > nMaxPunctuation)
+            break;
+    }
+
+    // Devuelvo la pyuntuaci√≥n
     return punctuation;
 }
 
@@ -74,7 +101,7 @@ CMatch::PunctuationForWordAndTarget(CAnswer word, std::string const& target) {
     word.m_RequiredLetters = word.GetRequiredLetters();
     word.m_NotPresentLetters = word.GetNotPressentLetters();
 
-    // Dada esa respuesta, obtengamos cu·ntas palabras v·lidas existen
+    // Dada esa respuesta, obtengamos cu√°ntas palabras v√°lidas existen
     return CountPossibles(word);
 }
 
@@ -107,23 +134,27 @@ CMatch::GetPossibles(CAnswer const& answer) {
 bool
 CMatch::PossibleWord(std::string const& word, CAnswer const& answer)
 {
-    std::set<char> PressentLetters;
+    std::multiset<char> PressentLetters;
+    std::multiset<char> RequiredLetters;
+
+    COPY_SET(answer.m_RequiredLetters, RequiredLetters);
 
     for (int i = 0; i < 5; i++) {
 
-        // Miro que la letra no estÈ ya prohibida
-        if (IS_IN_SET(word[i], answer.m_NotPresentLetters))
+        // Miro qu√© me dicen los colores de la posici√≥n actual
+        if (answer.m_Color[i] == LeterState::GREEN && word[i] != answer.m_strWord[i])
             return false;
 
-        // Miro quÈ me dicen los colores de la posiciÛn actual
-        if (answer.m_Color[i] == LeterState::GREEN and word[i] != answer.m_strWord[i])
+        // S√© que en esta posici√≥n, la letra es incorrecta
+        if (answer.m_Color[i] != LeterState::GREEN && word[i] == answer.m_strWord[i])
             return false;
 
-        // SÈ que en esta posiciÛn, la letra es incorrecta
-        if (answer.m_Color[i] != LeterState::GREEN and word[i] == answer.m_strWord[i])
+        // Miro que la letra no est√° ya prohibida
+        if (IS_IN_SET(word[i], answer.m_NotPresentLetters) &&
+            !ExtractFromSet(word[i], RequiredLetters))
             return false;
 
-        // AÒado la lera actual
+        // A√±ado la lera actual
         PressentLetters.insert(word[i]);
     }
 

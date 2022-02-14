@@ -17,29 +17,34 @@ CAnswer::CAnswer(std::string const& strWord, std::string const& strColorPattern)
     m_NotPresentLetters = GetNotPressentLetters();
 }
 
-std::set<char> CAnswer::GetRequiredLetters()
+std::multiset<char>
+CAnswer::GetRequiredLetters()
 {
 
-    std::set<char> required;
+    std::multiset<char> required;
 
     for (auto i = 0; i < 5; i++) {
-        if (m_Color[i] == LeterState::YELLOW or m_Color[i] == LeterState::GREEN)
+        // Cada vez que aparezca la letra de un color distinto al gris
+        // indica una aparición en la palabra objetivo.
+        if (m_Color[i] == LeterState::YELLOW ||
+            m_Color[i] == LeterState::GREEN)
             required.insert(m_strWord[i]);
     }
 
     return required;
 }
 
-std::set<char> CAnswer::GetNotPressentLetters()
+std::set<char>
+CAnswer::GetNotPressentLetters()
 {
 
     std::set<char> InvalidLetters;
 
     for (auto i = 0; i < 5; i++) {
-        if (m_Color[i] != LeterState::GREY)
-            continue;
-
-        if (!IS_IN_SET(m_strWord[i], m_RequiredLetters) )
+        // Si la letra es gris, la introduzco como no válida.
+        // Puede ocurrir que la letra esté también en m_RequiredLetters.
+        // Esto no será contradictorio, limitará el número de repeticiones de la letra.
+        if (m_Color[i] == LeterState::GREY)
             InvalidLetters.insert(m_strWord[i]);
     }
 
@@ -53,8 +58,8 @@ CAnswer::ColorizeWord(std::string const& strTarget )
     // Incializo una lista para guardar los colores
     std::vector<LeterState> vtColor(5, LeterState::GREY);
 
-    std::set<char> NotGreen;
-        // Escribo las letras acertadas
+    std::multiset<char> NotGreen;
+    // Escribo las letras acertadas
     for (int i = 0; i < 5; i++) {
 
         // Se ha acertado la letra, escribo un verde
@@ -73,7 +78,7 @@ CAnswer::ColorizeWord(std::string const& strTarget )
             continue;
 
         // Si aún es gris, miro si es una letra que esté en la palabra
-        if (IS_IN_SET(m_strWord[i], NotGreen))
+        if (ExtractFromSet(m_strWord[i], NotGreen))
             vtColor[i] = LeterState::YELLOW;
     }
 
