@@ -41,5 +41,5 @@ ProgressBar::Update(double done)
 	else
 		std::cout << int(seconds/60) << " minutes ";
 
-	std::cout << std::string(block, '|');
+	std::cout << "[" << std::string(block, '|') << std::string(nLen - block, ' ') << "]";
 }

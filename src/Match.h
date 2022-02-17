@@ -13,6 +13,7 @@ public:
 
 	std::set<std::string> POSSIBLES;
 
+	void PrintSuggestion();
 	std::string suggestion();
 	int PunctuationForWord(std::string const& strWord);
 	int PunctuationForWordLowerThan(std::string const& strWord, int nMaxPunctuation);

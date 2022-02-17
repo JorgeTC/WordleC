@@ -8,5 +8,7 @@
 #define FILL_VECTOR(_vt, _size, _item) {_vt.resize(_size); \
                                         std::fill(_vt.begin(), _vt.end(), _item);}
 
+#define WAIT_ENTER {int deleteme; std::cin >> deleteme;}
+
 //template <typename Titem>
 bool ExtractFromSet(char const & item, std::multiset<char> &container);

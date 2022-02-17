@@ -11,9 +11,36 @@ CMatch::CMatch()
     COPY_SET(WORDS, POSSIBLES);
 }
 
+void
+CMatch::PrintSuggestion() {
+
+    // Calculo la palabra sugerida
+    std::string strSuggestion = suggestion();
+
+    // Compruebo haber obtenido una palabra
+    if (strSuggestion != "") {
+        if (POSSIBLES.size() == 1)
+            std::cout << "La respuesta es: " << strSuggestion << "\n";
+        else
+            std::cout << "Te sugerimos: " << strSuggestion << "\n";
+    }
+}
+
 std::string
 CMatch::suggestion()
 {
+    // Antes de hacer ningún cálculo compruebo que tenga suficientes candidatos.
+    if (POSSIBLES.size() == 0) {
+        return "";
+    }
+
+    // Si sólo hay uno o dos elementos devuelvo uno de ellos.
+    // Cualquiera de los dos son opciones igualmente válidos.
+    if (POSSIBLES.size() <= 2) {
+        return *POSSIBLES.begin();
+    }
+
+
     std::string strSuggestion = "";
     int nMinPunctuation = WORDS.size() * WORDS.size();
     int counter = 0;
@@ -35,9 +62,11 @@ CMatch::suggestion()
         }
 
         bar.Update(double(++counter) / double(WORDS.size()));
+        std::cout << " " << strSuggestion << std::string(5, ' ');
     }
 
-
+    // Limpio la última linea
+    std::cout << "\r" << std::string(50, ' ') << "\r";
 
     return strSuggestion;
 }

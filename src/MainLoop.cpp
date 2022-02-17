@@ -10,20 +10,30 @@
 
 std::set<std::string> WORDS;
 
-void SolveWord() {
+void
+SolveWord() {
 
     CMatch Match;
 
-    while (Match.POSSIBLES.size() >= 1) {
+    // Bucle hasta obtener la palabra del día
+    while (Match.POSSIBLES.size() > 1) {
         std::string strInsertedWord = AskForWord();
         std::string strColorPattern = AskForPattern();
         CAnswer answer(strInsertedWord, strColorPattern);
         Match.POSSIBLES = Match.GetPossibles(answer);
         std::cout << "Hay " << Match.POSSIBLES.size() << " candidatas:\n";
         Match.print();
-        std::cout << "Te sugerimos: " << Match.suggestion() << "\n";
-
+        Match.PrintSuggestion();
     }
+
+    if (Match.POSSIBLES.size() == 1)
+        // Única palabra posible, espero enter
+        ;
+    else if (Match.POSSIBLES.size() == 0)
+        std::cout << "Respuestas incoherentes";
+
+    // Espero enter para poder leer la respuesta
+    WAIT_ENTER;
 }
 
 std::string AskForWord() {
