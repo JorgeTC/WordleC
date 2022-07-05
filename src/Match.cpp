@@ -88,7 +88,7 @@ CMatch::PunctuationForWord(std::string const& strWord)
         answer.m_RequiredLetters = answer.GetRequiredLetters();
         answer.m_NotPresentLetters = answer.GetNotPressentLetters();
 
-        punctuation += CacheCountPossibles(answer);
+        punctuation = std::max(CacheCountPossibles(answer), punctuation);
 
     }
 
@@ -112,7 +112,7 @@ CMatch::PunctuationForWordLowerThan(std::string const& strWord, int nMaxPunctuat
         answer.m_RequiredLetters = answer.GetRequiredLetters();
         answer.m_NotPresentLetters = answer.GetNotPressentLetters();
 
-        punctuation += CacheCountPossibles(answer);
+        punctuation = std::max(CacheCountPossibles(answer), punctuation);
 
         // Si he superado la mejor puntuación encontrada hasta ahora, salgo del bucle
         if (punctuation > nMaxPunctuation)
@@ -137,13 +137,10 @@ CMatch::PunctuationForWordAndTarget(CAnswer word, std::string const& target) {
 int
 CMatch::CountPossibles(CAnswer const& word)
 {
-    int counter{ 0 };
-
-    for (auto const& possible : POSSIBLES) {
-        counter += PossibleWord(possible, word);
-    }
-
-    return counter;
+    return std::count_if(POSSIBLES.begin(), POSSIBLES.end(),
+        [&](const std::string& possible) {
+            return PossibleWord(possible, word);
+        });
 }
 
 std::set<std::string>

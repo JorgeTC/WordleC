@@ -4,7 +4,7 @@
 CAnswer::CAnswer(std::string const& strWord)
 {
     m_strWord = strWord;
-    FILL_VECTOR(m_Color, 5, LeterState::GREY);
+    m_Color.fill(LeterState::GREY);
     m_RequiredLetters = GetRequiredLetters();
     m_NotPresentLetters = GetNotPressentLetters();
 }
@@ -51,12 +51,13 @@ CAnswer::GetNotPressentLetters()
     return InvalidLetters;
 }
 
-std::vector<LeterState>
+std::array<LeterState, 5>
 CAnswer::ColorizeWord(std::string const& strTarget )
 {
     
     // Incializo una lista para guardar los colores
-    std::vector<LeterState> vtColor(5, LeterState::GREY);
+    std::array<LeterState, 5> vtColor;
+    vtColor.fill(LeterState::GREY);
 
     std::multiset<char> NotGreen;
     // Escribo las letras acertadas
@@ -85,14 +86,15 @@ CAnswer::ColorizeWord(std::string const& strTarget )
     return vtColor;
 }
 
-std::vector<LeterState>
+std::array<LeterState, 5>
 CAnswer::StrToPatternVector(std::string const& strColor)
 {
-    std::vector<LeterState> vtColor;
+    std::array<LeterState, 5> vtColor;
 
+    int index = 0;
     for (auto const& num : strColor) {
         int value = num - '0';
-        vtColor.push_back(static_cast<LeterState>(value));
+        vtColor[index++] = static_cast<LeterState>(value);
     }
 
     return vtColor;
